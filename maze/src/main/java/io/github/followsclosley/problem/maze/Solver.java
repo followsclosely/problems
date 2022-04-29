@@ -5,5 +5,12 @@ import io.github.followsclosley.problem.Coordinate;
 import java.util.List;
 
 public interface Solver {
-    List<Coordinate> solve(ImmutableMaze maze);
+    /**
+     * Solves the given maze returning the path out.
+     *
+     * @param maze The maze to be solved
+     * @return A List of Coordinates starting from the beginning of the maze.
+     *         Returns an empty Collection if no solution is found.
+     */
+    List<Coordinate> solve(Maze maze);
 }

@@ -3,26 +3,35 @@ package io.github.followsclosley.problem.maze;
 import io.github.followsclosley.problem.Coordinate;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
 /**
- * 0 -> Road
- * 1 -> Wall
- * 2 -> Maze entry
- * 3 -> Maze exit
+ * Default immutable implementation of a Maze. It is meant to be extended to be useful.
  */
-public class ImmutableMaze implements Maze {
+public class DefaultMaze implements Maze {
 
-    private final int width, height;
-    private final boolean[][] data;
-    private final Coordinate start;
-    private final Coordinate end;
+    protected final int width, height;
+    protected final boolean[][] data;
+    protected final Coordinate start;
+    protected final Coordinate end;
 
-    private ImmutableMaze(boolean[][] data, Coordinate start, Coordinate end) {
+    protected DefaultMaze(Maze maze) {
+        this.height = maze.getHeight();
+        this.width = maze.getWidth();
+        this.start = maze.getStart();
+        this.end = maze.getEnd();
+        this.data = new boolean[maze.getHeight()][maze.getWidth()];
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                this.data[y][x] = maze.isPath(new Coordinate(x, y));
+            }
+        }
+    }
+
+    protected DefaultMaze(boolean[][] data, Coordinate start, Coordinate end) {
         this.data = data;
         this.height = data.length;
         this.width = data[0].length;
@@ -30,7 +39,20 @@ public class ImmutableMaze implements Maze {
         this.end = end;
     }
 
-    public static ImmutableMaze of(Path path) throws IOException {
+    /**
+     * Load a maze from a text file. The text file should contain integers 0-4.
+     * <ul>
+     *     <li>0 = Road</li>
+     *     <li>1 = Wall</li>
+     *     <li>2 = Start/Entry</li>
+     *     <li>3 = End/Exit</li>
+     * </ul>
+     *
+     * @param path The location of the text file
+     * @return A populate Maze
+     * @throws IOException if resource can not be located
+     */
+    public static DefaultMaze of(Path path) throws IOException {
 
         Coordinate start = null;
         Coordinate end = null;
@@ -58,7 +80,7 @@ public class ImmutableMaze implements Maze {
             }
         }
 
-        return new ImmutableMaze(data, start, end);
+        return new DefaultMaze(data, start, end);
     }
 
     public Coordinate getStart() {
@@ -73,6 +95,17 @@ public class ImmutableMaze implements Maze {
         return this.data[c.getY()][c.getX()];
     }
 
+    /**
+     * Check to see if the movement is within bounds of the maze. This is only
+     * needed if the loaded maze does not contain walls along all the edges.
+     *
+     * @param c Coordinate to check
+     * @return true if Coordinate is in bounds of the underlying two-dimensional array
+     */
+    public boolean isInbounds(Coordinate c) {
+        return (c.getY() >= 0 && c.getY() < height && c.getX() >= 0 && c.getX() < width);
+    }
+
     public int getHeight() {
         return height;
     }
@@ -85,7 +118,7 @@ public class ImmutableMaze implements Maze {
         for (int y = 0; y < getHeight(); y++) {
             for (int x = 0; x < getWidth(); x++) {
                 if (data[y][x]) {
-                    if( path.contains(new Coordinate(x, y))){
+                    if (path.contains(new Coordinate(x, y))) {
                         System.out.print("*");
                     } else {
                         System.out.print(" ");
@@ -100,11 +133,6 @@ public class ImmutableMaze implements Maze {
 
     @Override
     public String toString() {
-        return "Maze{" +
-                "width=" + width +
-                ", height=" + height +
-                ", start=" + start +
-                ", end=" + end +
-                '}';
+        return "Maze{width=" + width + ", height=" + height + ", start=" + start + ", end=" + end + '}';
     }
 }
