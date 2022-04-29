@@ -3,6 +3,7 @@ package io.github.followsclosley.problem.maze;
 import io.github.followsclosley.problem.Coordinate;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -90,7 +91,7 @@ public class ImmutableMaze implements Maze {
                         System.out.print(" ");
                     }
                 } else {
-                    System.out.print("X");
+                    System.out.print("0");
                 }
             }
             System.out.println();

@@ -36,7 +36,7 @@ public class MazeContext {
         return (c.getY() >= 0 && c.getY() < maze.getHeight() && c.getX() >= 0 && c.getX() < maze.getWidth());
     }
 
-    public boolean hasVisited(Coordinate c) {
+    public boolean visit(Coordinate c) {
         if (this.visited[c.getY()][c.getX()]) {
             return true;
         } else {

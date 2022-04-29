@@ -32,7 +32,7 @@ public class DepthFirstSearchSolver implements Solver {
 
         if (!context.isInbounds(coordinate)
                 || !context.getMaze().isPath(coordinate)
-                || context.hasVisited(coordinate)
+                || context.visit(coordinate)
         ) {
             return false;
         }
