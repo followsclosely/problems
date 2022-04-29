@@ -49,7 +49,7 @@ public class DefaultMaze implements Maze {
      * </ul>
      *
      * @param path The location of the text file
-     * @return A populate Maze
+     * @return A populated Maze
      * @throws IOException if resource can not be located
      */
     public static DefaultMaze of(Path path) throws IOException {
