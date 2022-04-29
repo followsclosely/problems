@@ -1,10 +1,11 @@
 package io.github.followsclosley.problem.maze.solvers;
 
 import io.github.followsclosley.problem.Coordinate;
-import io.github.followsclosley.problem.maze.Maze;
+import io.github.followsclosley.problem.maze.ImmutableMaze;
 import io.github.followsclosley.problem.maze.Solver;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class DepthFirstSearchSolver implements Solver {
@@ -16,46 +17,41 @@ public class DepthFirstSearchSolver implements Solver {
             new Coordinate(-1, 0)};
 
     @Override
-    public List<Coordinate> solve(Maze master) {
+    public List<Coordinate> solve(ImmutableMaze maze) {
+        System.out.println("Solve: " + maze);
 
-        System.out.println("Solve: " + master);
-        Maze maze = new Maze(master);
-
-        List<Coordinate> path = new ArrayList<>();
-
-        explore(maze, maze.getStart(), path);
-
-        System.out.println("path = " + path);
-        return path;
+        MazeContext context = new MazeContext(maze);
+        if (explore(context, maze.getStart())) {
+            return context.getPath();
+        } else {
+            return Collections.emptyList();
+        }
     }
 
-    private boolean explore(Maze maze, Coordinate coordinate, List<Coordinate> path) {
+    private boolean explore(MazeContext context, Coordinate coordinate) {
 
-        if (maze.getEnd().equals(coordinate)) {
-            path.add(coordinate);
+        if (!context.isInbounds(coordinate)
+                || !context.getMaze().isPath(coordinate)
+                || context.hasVisited(coordinate)
+        ) {
+            return false;
+        }
+
+        context.getPath().add(coordinate);
+
+        if (context.getMaze().getEnd().equals(coordinate)) {
             System.out.println("FOUND A WAY OUT!");
+            System.out.println(context.getPath());
             return true;
         }
 
-        if (maze.visit(coordinate)) {
-            System.out.printf("Can move to %s%n", coordinate);
-            path.add(coordinate);
-
-            for (Coordinate movement : SEARCH_DIRECTIONS) {
-                if (explore(maze, coordinate.translate(movement), path)) {
-                    return true;
-                }
-            }
-        } else {
-            int size = path.size();
-            if (size > 0) {
-                path.remove(size - 1);
+        for (Coordinate movement : SEARCH_DIRECTIONS) {
+            if (explore(context, coordinate.translate(movement))) {
+                return true;
             }
         }
 
-        System.out.printf("Can NOT move to %s%n", coordinate);
-
+        context.getPath().remove(context.getPath().size() - 1);
         return false;
-
     }
 }
