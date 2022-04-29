@@ -10,7 +10,7 @@ public interface Solver {
      *
      * @param maze The maze to be solved
      * @return A List of Coordinates starting from the beginning of the maze.
-     *         Returns an empty Collection if no solution is found.
+     * Returns an empty Collection if no solution is found.
      */
     List<Coordinate> solve(Maze maze);
 }

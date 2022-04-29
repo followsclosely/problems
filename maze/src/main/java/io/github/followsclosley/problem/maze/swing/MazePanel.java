@@ -16,9 +16,8 @@ public class MazePanel extends JPanel {
     private final Dimension DEFAULT_MINIMUM_SIZE;
 
     private final AccountableMaze maze;
-    private int stepNumber = 0;
-
     private final Color PATH_COLOR = Color.RED;
+    private int stepNumber = 0;
 
     public MazePanel(AccountableMaze maze) {
         this.maze = maze;
@@ -38,10 +37,10 @@ public class MazePanel extends JPanel {
 
         for (int y = 0; y < maze.getHeight(); y++) {
             for (int x = 0; x < maze.getWidth(); x++) {
-                Coordinate c = new Coordinate(x,y);
-                if( maze.isPath(c)){
+                Coordinate c = new Coordinate(x, y);
+                if (maze.isPath(c)) {
                     int index = maze.getPath().indexOf(c);
-                    if(index != -1 && index < stepNumber){
+                    if (index != -1 && index < stepNumber) {
                         g.setColor(PATH_COLOR);
                         g.fill3DRect(x * DEFAULT_CELL_SIZE, y * DEFAULT_CELL_SIZE, DEFAULT_CELL_SIZE, DEFAULT_CELL_SIZE, true);
                     }
