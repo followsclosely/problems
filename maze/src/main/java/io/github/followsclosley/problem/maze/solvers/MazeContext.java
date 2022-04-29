@@ -33,8 +33,7 @@ public class MazeContext {
      * @return true if Coordinate is in bounds of the underlying two-dimensional array
      */
     public boolean isInbounds(Coordinate c) {
-        return (c.getY() >= 0 && c.getY() < maze.getHeight()
-                && c.getX() >= 0 && c.getX() < maze.getWidth());
+        return (c.getY() >= 0 && c.getY() < maze.getHeight() && c.getX() >= 0 && c.getX() < maze.getWidth());
     }
 
     public boolean hasVisited(Coordinate c) {
