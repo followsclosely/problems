@@ -12,7 +12,7 @@ import java.awt.*;
  */
 public class MazePanel extends JPanel {
 
-    private final int DEFAULT_CELL_SIZE = 10;
+    private final int DEFAULT_CELL_SIZE = 20;
     private final Dimension DEFAULT_MINIMUM_SIZE;
 
     private final AccountableMaze maze;

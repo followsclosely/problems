@@ -4,6 +4,7 @@ import io.github.followsclosley.problem.Coordinate;
 import io.github.followsclosley.problem.maze.AccountableMaze;
 import io.github.followsclosley.problem.maze.DefaultMaze;
 import io.github.followsclosley.problem.maze.solvers.BreadthFirstSolver;
+import io.github.followsclosley.problem.maze.solvers.DepthFirstSearchSolver;
 
 import javax.swing.*;
 import java.awt.*;
