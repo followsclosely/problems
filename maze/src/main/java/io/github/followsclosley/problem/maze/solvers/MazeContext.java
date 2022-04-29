@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MazeContext {
-
     private final Maze maze;
     private final boolean[][] visited;
     private final List<Coordinate> path;

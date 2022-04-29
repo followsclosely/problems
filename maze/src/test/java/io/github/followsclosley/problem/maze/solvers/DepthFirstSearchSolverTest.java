@@ -16,7 +16,7 @@ class DepthFirstSearchSolverTest {
         DepthFirstSearchSolver solver = new DepthFirstSearchSolver();
         ImmutableMaze maze = ImmutableMaze.of(Path.of(ClassLoader.getSystemResource("maze001.txt").toURI()));
         List<Coordinate> path = solver.solve(maze);
-        System.out.println("path = " + path);
+        System.out.printf("path = %s%n", path);
         maze.printMaze(path);
     }
 }
