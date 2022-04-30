@@ -52,7 +52,7 @@ public class BreadthFirstSolver implements Solver {
                 Coordinate next = coordinate.translate(movement);
 
                 if (accountableMaze.isInbounds(next) && accountableMaze.visit(next)) {
-                    accountableMaze.getPath().add(new Coordinate(next, coordinate));
+                    accountableMaze.getPath().add(next = new Coordinate(next, coordinate));
 
                     //If we are at the end then use the current coordinate to build the path to the end.
                     if (maze.getEnd().equals(next)) {

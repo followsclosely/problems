@@ -17,7 +17,7 @@ public class MazeBrowser {
 
     public static void main(String[] args) throws IOException, URISyntaxException {
         AccountableMaze maze = new AccountableMaze(DefaultMaze.of(Path.of(ClassLoader.getSystemResource("maze001.txt").toURI())));
-        List<Coordinate> path = new DepthFirstSearchSolver().solve(maze);
+        List<Coordinate> path = new BreadthFirstSolver().solve(maze);
         new MazeBrowser().show(maze);
     }
 

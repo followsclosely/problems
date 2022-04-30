@@ -12,7 +12,7 @@ import java.awt.*;
  */
 public class MazePanel extends JPanel {
 
-    private final int DEFAULT_CELL_SIZE = 10;
+    private final int DEFAULT_CELL_SIZE = 20;
     private final Dimension DEFAULT_MINIMUM_SIZE;
 
     private final AccountableMaze maze;
@@ -60,7 +60,7 @@ public class MazePanel extends JPanel {
         for (int i = 0; i < stepNumber; i++) {
             AccountableMaze.Move move = maze.getMoves().get(i);
             g.setColor(maze.getPath().contains(move.getCoordinate()) ? PATH_COLOR : BACKTRACK_COLOR);
-            g.setColor(AccountableMaze.Move.MoveType.EXPLORE == move.getMoveType() ? PATH_COLOR : BACKTRACK_COLOR);
+            //g.setColor(AccountableMaze.Move.MoveType.EXPLORE == move.getMoveType() ? PATH_COLOR : BACKTRACK_COLOR);
             g.fill3DRect(move.getCoordinate().getX() * DEFAULT_CELL_SIZE, move.getCoordinate().getY() * DEFAULT_CELL_SIZE, DEFAULT_CELL_SIZE, DEFAULT_CELL_SIZE, true);
         }
     }
