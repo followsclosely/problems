@@ -17,7 +17,7 @@ public class MazeBrowser {
 
     public static void main(String[] args) throws IOException, URISyntaxException {
         AccountableMaze maze = new AccountableMaze(DefaultMaze.of(Path.of(ClassLoader.getSystemResource("maze001.txt").toURI())));
-        List<Coordinate> path = new BreadthFirstSolver().solve(maze);
+        List<Coordinate> path = new DepthFirstSearchSolver().solve(maze);
         new MazeBrowser().show(maze);
     }
 
@@ -30,12 +30,24 @@ public class MazeBrowser {
             SwingUtilities.invokeLater(mazePanel::repaint);
         });
 
+        JCheckBox showFailedSteps = new JCheckBox("Show Failed Steps");
+        showFailedSteps.addActionListener(event -> {
+            mazePanel.setShowFailedSteps(showFailedSteps.isSelected());
+            slider.setValue(0);
+            slider.setMaximum(maze.getMoves().size());
+            mazePanel.setStepNumber(0);
+        });
+
+        JPanel controls = new JPanel(new BorderLayout());
+        controls.add(showFailedSteps, BorderLayout.WEST);
+        controls.add(slider, BorderLayout.CENTER);
+
         JFrame frame = new JFrame("Maze Browser");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         GridBagConstraints c = new GridBagConstraints();
         frame.add(mazePanel, BorderLayout.CENTER);
-        frame.add(slider, BorderLayout.SOUTH);
+        frame.add(controls, BorderLayout.SOUTH);
         frame.pack();
 
         frame.setVisible(true);

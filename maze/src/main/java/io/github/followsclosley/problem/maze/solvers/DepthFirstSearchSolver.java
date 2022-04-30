@@ -25,10 +25,10 @@ import java.util.List;
 public class DepthFirstSearchSolver implements Solver {
 
     private static final Coordinate[] SEARCH_DIRECTIONS = {
-            new Coordinate(0, 1),
-            new Coordinate(1, 0),
             new Coordinate(0, -1),
-            new Coordinate(-1, 0)};
+            new Coordinate(-1, 0),
+            new Coordinate(0, 1),
+            new Coordinate(1, 0)};
 
     @Override
     public List<Coordinate> solve(Maze maze) {
@@ -63,7 +63,7 @@ public class DepthFirstSearchSolver implements Solver {
             }
         }
 
-        maze.getPath().remove();
+        maze.backtrack();
         return false;
     }
 }

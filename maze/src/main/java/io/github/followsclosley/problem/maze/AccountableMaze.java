@@ -2,7 +2,9 @@ package io.github.followsclosley.problem.maze;
 
 import io.github.followsclosley.problem.Coordinate;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * This mutable implementation of Maze keeps track of coordinates that have been visited.
@@ -14,11 +16,13 @@ public class AccountableMaze extends DefaultMaze {
 
     // The path through the maze.
     private final LinkedList<Coordinate> path;
+    private final List<Move> moves;
 
     public AccountableMaze(Maze maze) {
         super(maze);
         this.path = new LinkedList<>();
         this.visited = new boolean[maze.getHeight()][maze.getWidth()];
+        this.moves = new ArrayList<>();
     }
 
     /**
@@ -26,6 +30,13 @@ public class AccountableMaze extends DefaultMaze {
      */
     public LinkedList<Coordinate> getPath() {
         return this.path;
+    }
+
+    /**
+     * @return All the moves performed to solve this maze.
+     */
+    public List<Move> getMoves() {
+        return moves;
     }
 
     /**
@@ -43,7 +54,47 @@ public class AccountableMaze extends DefaultMaze {
         if (this.visited[c.getY()][c.getX()]) {
             return false;
         } else {
+            moves.add(new Move(Move.MoveType.EXPLORE, c));
             return this.visited[c.getY()][c.getX()] = true;
+        }
+    }
+
+    /**
+     * @return The {@link Coordinate} of the move undone
+     */
+    public Coordinate backtrack() {
+        Coordinate c = path.remove(path.size()-1);
+        moves.add(new Move(Move.MoveType.BACKTRACK, c));
+        return c;
+    }
+
+    public static class Move {
+
+        public enum MoveType {
+            EXPLORE,
+            BACKTRACK,
+            DEAD_PATH
+        }
+
+        private final MoveType moveType;
+        private final Coordinate coordinate;
+
+        public Move(MoveType moveType, Coordinate coordinate) {
+            this.moveType = moveType;
+            this.coordinate = coordinate;
+        }
+
+        public MoveType getMoveType() {
+            return moveType;
+        }
+
+        public Coordinate getCoordinate() {
+            return coordinate;
+        }
+
+        @Override
+        public String toString() {
+            return "Move{moveType=" + moveType + ", coordinate=" + coordinate + '}';
         }
     }
 }

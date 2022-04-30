@@ -36,31 +36,32 @@ public class BreadthFirstSolver implements Solver {
         // Create an AccountableMaze or use it if it already is an AccountableMaze
         AccountableMaze accountableMaze = (maze instanceof AccountableMaze am) ? am : new AccountableMaze(maze);
 
-
         // The accountableMaze.getPath() list will contain all the coordinates that need to be explored at any given
         // point in time. For large mazes this collection could get large. It will never be larger than the number
         // of valid coordinates on a maze.
 
+        //Prime the path with the starting Coordinate
         accountableMaze.getPath().add(maze.getStart());
         accountableMaze.visit(maze.getStart());
 
         while (!accountableMaze.getPath().isEmpty()) {
             Coordinate coordinate = accountableMaze.getPath().remove();
 
-            //If we are at the end then use the current coordinate to build the path to the end.
-            if (maze.getEnd().equals(coordinate)) {
-                //The collection still has all the coordinates that are being search for a valid path,
-                //so it needs to be cleared.
-                accountableMaze.getPath().clear();
-                accountableMaze.getPath().addAll(coordinate.getPath());
-                return accountableMaze.getPath();
-            }
-
             //Locate all the valid coordinates that can be moved to from the current coordinate.
             for (Coordinate movement : SEARCH_DIRECTIONS) {
                 Coordinate next = coordinate.translate(movement);
+
                 if (accountableMaze.isInbounds(next) && accountableMaze.visit(next)) {
                     accountableMaze.getPath().add(new Coordinate(next, coordinate));
+
+                    //If we are at the end then use the current coordinate to build the path to the end.
+                    if (maze.getEnd().equals(next)) {
+                        //The collection still has all the coordinates that are being search for a valid path,
+                        //so it needs to be cleared.
+                        accountableMaze.getPath().clear();
+                        accountableMaze.getPath().addAll(next.getPath());
+                        return accountableMaze.getPath();
+                    }
                 }
             }
         }
